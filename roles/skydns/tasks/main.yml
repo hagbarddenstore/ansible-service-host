@@ -1,0 +1,10 @@
+---
+- name: ensure skydns hosts are present
+  etcd:
+    host: http://localhost:2379
+    key: "/skydns/{{ skydns_domain_prefix }}/{{ item.key }}"
+    value: "{{ item.value | default | string }}"
+    state: "{{ item.state | default(omit) }}"
+  with_items: skydns_hosts
+  run_once: yes
+  tags: configuration
